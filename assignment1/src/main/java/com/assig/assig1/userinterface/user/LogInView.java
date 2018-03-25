@@ -19,8 +19,8 @@ import com.assig.assig1.ILoginView;
 
 public class LogInView extends JFrame implements ILoginView{
 
-	private JTextField textField_password;
-	private JTextField textField_username;
+	private JTextField txtParolastandard_1;
+	private JTextField txtParolastandard;
 	private JLabel lblUsername;
 	private JLabel lblPleaseInputYour;
 	private JPanel panel;
@@ -69,16 +69,18 @@ public class LogInView extends JFrame implements ILoginView{
 		lblUsername = new JLabel("Username:");
 		panel_1.add(lblUsername);
 		
-		textField_username = new JTextField();
-		panel_1.add(textField_username);
-		textField_username.setColumns(10);
+		txtParolastandard = new JTextField();
+		txtParolastandard.setText("Dulsea");
+		panel_1.add(txtParolastandard);
+		txtParolastandard.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Password:");
 		panel_1.add(lblNewLabel);
 		
-		textField_password = new JTextField();
-		panel_1.add(textField_password);
-		textField_password.setColumns(10);
+		txtParolastandard_1 = new JTextField();
+		txtParolastandard_1.setText("parolastandard");
+		panel_1.add(txtParolastandard_1);
+		txtParolastandard_1.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Log In");
 		panel_1.add(btnNewButton);
@@ -91,7 +93,7 @@ public class LogInView extends JFrame implements ILoginView{
 	
 	private void logInActionPerformed(ActionEvent event)
 	{
-		presenter.logIn(textField_username.getText(), textField_password.getText());
+		presenter.logIn(txtParolastandard.getText(), txtParolastandard_1.getText());
 	}
 
 	public void showInvalidPassword() {

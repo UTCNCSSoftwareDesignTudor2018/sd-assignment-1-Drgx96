@@ -10,7 +10,7 @@ public interface IStudentInformationView {
 
 	void setGroup(String groupNumber);
 
-	void setEnrollments(List<String> enrollments);
+	void showEnrollments(List<String> subjects);
 
 	void setPresenter(StudentPresenter studentPresenter);
 

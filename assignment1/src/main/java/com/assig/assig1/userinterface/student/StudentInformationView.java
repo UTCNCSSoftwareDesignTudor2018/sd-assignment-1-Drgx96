@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,10 @@ import com.assig.assig1.IStudentInformationView;
 import com.assig.assig1.presenters.StudentPresenter;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
+import java.awt.FlowLayout;
 
 public class StudentInformationView extends JFrame implements IStudentInformationView{
 	/**
@@ -25,20 +30,19 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
 	 */
 	private static final long serialVersionUID = 5270705953458728655L;
 	private IStudentInformationPresenter presenter;
+	private AvailableClassesView classesView;
 	private JLabel lblNewLabel;
+	private JLabel lblLastName;
 	private JPanel panel;
 	private JPanel panel_2;
-	private JLabel lblLastName;
+	private JPanel panel_3;
+	private JTable table;
 	private JTextField textField_lastName;
 	private JTextField textField_firstName;
-	private JPanel panel_1;
-	private JLabel lblAccountInformation;
-	private JPanel panel_5;
-	private JPanel panel_3;
 	private JButton btnAddEnrollment;
 	private JButton btnLeaveSelectedCourses;
-	private JTable table;
-	private LinkedList<String> selectedCourses;
+	private JButton btnGrades;
+	private JScrollPane scrollPane;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -54,8 +58,8 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
 	}
 	
 	public StudentInformationView() {
-		selectedCourses = new LinkedList<String>();
 		initialize();
+		classesView = new AvailableClassesView(this);
 	}
 	
 	public void setPresenter(IStudentInformationPresenter sip)
@@ -64,16 +68,10 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
 	}
 	
 	private void initialize() {
-		setBounds(100, 100, 500, 250);
+		setBounds(100, 100, 500, 538);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Sinu V10.0");
-		getContentPane().setLayout(new GridLayout(5, 1, 0, 0));
-		
-		panel_1 = new JPanel();
-		getContentPane().add(panel_1);
-		
-		lblAccountInformation = new JLabel("Student information");
-		panel_1.add(lblAccountInformation);
+		setTitle("Sinu V10.0 - Student Information");
+		getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		panel = new JPanel();
 		getContentPane().add(panel);
@@ -89,8 +87,8 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
 		textField_firstName.setColumns(10);
 		
 		panel_2 = new JPanel();
-		getContentPane().add(panel_2);
 		panel_2.setLayout(new GridLayout(0, 2, 0, 0));
+		getContentPane().add(panel_2);
 		
 		lblLastName = new JLabel("Group:");
 		lblLastName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -98,40 +96,39 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
 		
 		textField_lastName = new JTextField();
 		textField_lastName.setEditable(false);
-		panel_2.add(textField_lastName);
 		textField_lastName.setColumns(10);
+		panel_2.add(textField_lastName);
 		
-		panel_5 = new JPanel();
-		getContentPane().add(panel_5);
+		scrollPane = new JScrollPane();
+		getContentPane().add(scrollPane);
 		
 		table = new JTable();
-		panel_5.add(table);
+		table.setFillsViewportHeight(true);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column"
+			}
+		));
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		scrollPane.setViewportView(table);
 		
 		panel_3 = new JPanel();
 		getContentPane().add(panel_3);
 		
 		btnAddEnrollment = new JButton("Enroll");
-		btnAddEnrollment.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
 		panel_3.add(btnAddEnrollment);
 		
+		btnGrades = new JButton("Grades");
+		panel_3.add(btnGrades);
+		
 		btnLeaveSelectedCourses = new JButton("Leave selected courses");
-		btnLeaveSelectedCourses.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				leaveSelectedCourses();
-			}
-		});
 		panel_3.add(btnLeaveSelectedCourses);
 	}
 
 	protected void leaveSelectedCourses() {
-		for(String courseId: selectedCourses)
-		{
-			presenter.leaveCourse(courseId);
-		}
+		presenter.leaveCoursesWithIndexes(Arrays.stream( table.getSelectedRows() ).boxed().toArray( Integer[]::new ));
 	}
 
 	public void setIdentificationNumber(String identificationNumber) {
@@ -142,17 +139,51 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
 		textField_lastName.setText(groupNumber);
 	}
 
-	public void setEnrollments(List<String> enrollments) {
-		// TODO Auto-generated method stub
-		
+	public void showEnrollments(List<String> subjects) {
+		DefaultTableModel defaultModel = new DefaultTableModel();
+		defaultModel.addColumn("Subject");
+		for(int i=0;i<subjects.size();i++)
+		{
+			defaultModel.addRow(new String[] {subjects.get(i)});
+		}
+		table.setModel(defaultModel);
 	}
 
 	public void setPresenter(StudentPresenter studentPresenter) {
 		presenter = studentPresenter;
+		btnLeaveSelectedCourses.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				leaveSelectedCourses();
+			}
+		});
+		btnGrades.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showGrades();
+			}
+		});
+		btnAddEnrollment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showAvailableClasses();
+			}
+		});
+	}
+
+	protected void showAvailableClasses() {
+		List<String> classes = presenter.getAvailableClasses();
+		classesView.showAvailableClasses(classes);
+		classesView.setVisible(true);
+	}
+
+	protected void showGrades() {
+		
 	}
 
 	public void display() {
-		// TODO Auto-generated method stub
-		
+		setVisible(true);
+	}
+	
+
+	public void joinCourseAtIndex(int index) {
+		presenter.joinClassAtIndex(index);
 	}
 }

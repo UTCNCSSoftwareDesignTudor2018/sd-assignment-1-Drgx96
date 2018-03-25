@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.assig.assig1.IStudentView;
+import com.assig.assig1.presenters.StudentPresenter;
 
 public class StudentView extends JFrame implements IStudentView{
 	/**
@@ -62,7 +63,7 @@ public class StudentView extends JFrame implements IStudentView{
 		getContentPane().add(btnNewButton);
 		
 		
-		btnNewButton_1 = new JButton("Student Infromation");
+		btnNewButton_1 = new JButton("Student Information");
 		getContentPane().add(btnNewButton_1);
 		
 		
@@ -74,6 +75,7 @@ public class StudentView extends JFrame implements IStudentView{
 	public void setPresenter(IStudentPresenter sp)
 	{
 		this.presenter =sp;
+		lblNewLabel_1.setText(presenter.getUsername());
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				presenter.presentAccountInformation();
@@ -94,4 +96,9 @@ public class StudentView extends JFrame implements IStudentView{
 	public void display() {
 		setVisible(true);
 	}
+
+	public void dontDisplay() {
+		setVisible(false);
+	}
+
 }

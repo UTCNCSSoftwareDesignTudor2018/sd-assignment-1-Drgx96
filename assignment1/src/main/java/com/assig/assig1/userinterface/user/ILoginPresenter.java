@@ -4,4 +4,6 @@ public interface ILoginPresenter {
 
 	void logIn(String username, String password);
 
+	void show();
+
 }

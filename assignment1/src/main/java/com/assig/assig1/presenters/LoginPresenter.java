@@ -32,11 +32,11 @@ public class LoginPresenter implements ILoginPresenter{
 			loginView.dontDisplay();
 			if(facade.isProffesor(userId))
 			{
-				professorPresenter = new ProfessorPresenter(facade, new ProfessorView(), new UserAccountInformationView(), userId);
+				professorPresenter = new ProfessorPresenter(facade, this, new ProfessorView(), new UserAccountInformationView(), userId);
 			}
 			else
 			{
-				studentPresenter = new StudentPresenter(facade, new StudentInformationView(), new StudentView(), new UserAccountInformationView(), userId);
+				studentPresenter = new StudentPresenter(facade, this, new StudentInformationView(), new StudentView(), new UserAccountInformationView(), userId);
 			}
 		}
 		else
@@ -48,5 +48,9 @@ public class LoginPresenter implements ILoginPresenter{
 	public static void main(String[] args)
 	{
 		LoginPresenter loginPresenter = new LoginPresenter(new Facade(), new LogInView());
+	}
+
+	public void show() {
+		loginView.display();
 	}
 }

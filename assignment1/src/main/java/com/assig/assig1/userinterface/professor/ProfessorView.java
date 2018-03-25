@@ -55,47 +55,53 @@ public class ProfessorView extends JFrame implements IProfessorView{
 		
 		lblNewLabel_1 = new JLabel("<USERACCOUNT>");
 		panel.add(lblNewLabel_1);
-		lblNewLabel_1.setText(presenter.getUsername());
 		
 		btnNewButton = new JButton("Account Information");
 		getContentPane().add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("Edit Student Information");
+		getContentPane().add(btnNewButton_1);
+		
+		btnNewButton_2 = new JButton("Make a report");
+		getContentPane().add(btnNewButton_2);
+		
+		btnNewButton_3 = new JButton("Log Out");
+		getContentPane().add(btnNewButton_3);
+	}
+	
+	public void setPresenter(IProfessorPresenter p) {
+		presenter = p;
+		lblNewLabel_1.setText(presenter.getUsername());
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				presenter.presentAccountInformation();
 	            }
 		});
-		
-		btnNewButton_1 = new JButton("Edit Student Information");
-		getContentPane().add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				presenter.presentStudentsInformation();
 	            }
 		});
-		
-		btnNewButton_2 = new JButton("Make a report");
-		getContentPane().add(btnNewButton_2);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				presenter.presentReportsInformation();
 	            }
 		});
-		
-		btnNewButton_3 = new JButton("Log Out");
-		getContentPane().add(btnNewButton_3);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				presenter.logOut();
 	            }
 		});
 	}
-	
-	public void setPresenter(IProfessorPresenter p) {
-		presenter = p;
-	}
 
 	public void showStudents() {
-		// TODO Auto-generated method stub
-		
+	}
+
+	public void dontDisplay() {
+		setVisible(false);
+	}
+
+	public void display() {
+		setVisible(true);
 	}
 }

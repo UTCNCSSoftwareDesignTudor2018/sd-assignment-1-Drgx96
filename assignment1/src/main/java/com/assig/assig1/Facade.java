@@ -1,9 +1,12 @@
 package com.assig.assig1;
 
+import java.util.List;
+
 import com.assig.assig1.business.classes.ClassesManager;
 import com.assig.assig1.business.users.UsersManager;
 import com.assig.assig1.models.StudentInformation;
 import com.assig.assig1.models.User;
+import com.assig.assig1.models.Class;
 
 public class Facade implements IFacade {
 
@@ -12,8 +15,8 @@ public class Facade implements IFacade {
 
 	public Facade()
 	{
-		usersMgr = new UsersManager();
 		classesMgr = new ClassesManager();
+		usersMgr = new UsersManager(classesMgr);
 	}
 	
 	public void saveAccountInformationForUser(String userId, String firstName, String lastName, String icn,
@@ -33,7 +36,7 @@ public class Facade implements IFacade {
 		return usersMgr.getStudentInformation(userId);
 	}
 
-	public void withDrawUserFromCourse(String userId, String courseId) {
+	public void withDrawUserFromCourse(int userId, int courseId) {
 		classesMgr.withDrawUserFromCourse(userId, courseId);
 	}
 
@@ -43,5 +46,21 @@ public class Facade implements IFacade {
 
 	public boolean isProffesor(String userId) {
 		return usersMgr.isProffesor(userId);
+	}
+
+	public Class getClass(int classId) {
+		return classesMgr.getClass(classId);
+	}
+
+	public List<Class> getAvaiableClassesForUser(int userId) {
+		return classesMgr.getAvaiableClassesForUser(userId);
+	}
+
+	public void enrollUserToClass(int userId, int classId) {
+		classesMgr.enrollStudentToClass(userId, classId);
+	}
+
+	public void withDrawUserFromCourses(int userId, List<Integer> coursesIds) {
+		classesMgr.withdrawUserFromCourses(userId, coursesIds);
 	}
 }

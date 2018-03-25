@@ -26,7 +26,7 @@ public class GenericDAOJdbc<T> implements GenericDAO<T> {
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement findStatement = null;
 		ResultSet rs = null;
-		String query = "SELECT * FROM `" + type.getSimpleName() + "` where " + type.getDeclaredFields()[0].getName()
+		String query = "SELECT * FROM `" + type.getSimpleName().toLowerCase()+"s" + "` where " + type.getDeclaredFields()[0].getName()
 				+ "= ?";
 		try {
 			findStatement = dbConnection.prepareStatement(query);
@@ -161,7 +161,7 @@ public class GenericDAOJdbc<T> implements GenericDAO<T> {
 	public void add(T t) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement findStatement = null;
-		String query = "INSERT INTO `" + type.getSimpleName() + "` (";
+		String query = "INSERT INTO `" + type.getSimpleName().toLowerCase()+"s" + "` (";
 		for (Field field : type.getDeclaredFields()) {
 			query = query + field.getName() + ", ";
 		}
@@ -197,7 +197,7 @@ public class GenericDAOJdbc<T> implements GenericDAO<T> {
 	public void update(T t) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement findStatement = null;
-		String query = "UPDATE `" + type.getSimpleName() + "` SET ";
+		String query = "UPDATE `" + type.getSimpleName().toLowerCase()+"s" + "` SET ";
 		Field[] fs = type.getDeclaredFields();
 		for (int i = 1; i < fs.length; i++)
 			query = query + fs[i].getName() + "=?,";
@@ -234,7 +234,7 @@ public class GenericDAOJdbc<T> implements GenericDAO<T> {
 	public void delete(Integer id) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement findStatement = null;
-		String query = "DELETE FROM " + type.getSimpleName() + " where " + type.getDeclaredFields()[0].getName()
+		String query = "DELETE FROM " + type.getSimpleName().toLowerCase()+"s" + " where " + type.getDeclaredFields()[0].getName()
 				+ "=?;";
 		try {
 			findStatement = dbConnection.prepareStatement(query);

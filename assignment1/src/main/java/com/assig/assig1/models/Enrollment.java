@@ -9,4 +9,12 @@ public class Enrollment {
 		this.class_id = class_id;
 	}
 	
+	public int getClassId() {
+		return class_id;
+	}
+
+	public int getUserId() {
+		return users_id;
+	}
+	
 }

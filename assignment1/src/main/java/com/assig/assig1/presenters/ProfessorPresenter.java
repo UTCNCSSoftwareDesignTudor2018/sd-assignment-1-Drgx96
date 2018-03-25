@@ -5,6 +5,7 @@ import com.assig.assig1.IProfessorView;
 import com.assig.assig1.IUserAccountInformationView;
 import com.assig.assig1.models.User;
 import com.assig.assig1.userinterface.professor.IProfessorPresenter;
+import com.assig.assig1.userinterface.user.ILoginPresenter;
 import com.assig.assig1.userinterface.user.IUserAccountInformationPresenter;
 
 public class ProfessorPresenter implements IProfessorPresenter, IUserAccountInformationPresenter {
@@ -13,12 +14,17 @@ public class ProfessorPresenter implements IProfessorPresenter, IUserAccountInfo
 	private String userId;
 	private IProfessorView professorView;
 	private IUserAccountInformationView userAccountInfoView;
+	private ILoginPresenter loginPresenter;
 
-	public ProfessorPresenter(IFacade facade, IProfessorView professorView, IUserAccountInformationView userAccountInfoView, String userId) {
+	public ProfessorPresenter(IFacade facade, ILoginPresenter loginPresenter, IProfessorView professorView, IUserAccountInformationView userAccountInfoView, String userId) {
 		this.facade=facade;
+		this.loginPresenter = loginPresenter;
 		this.userId=userId;
 		this.professorView = professorView;
+		professorView.setPresenter(this);
 		this.userAccountInfoView = userAccountInfoView;
+		userAccountInfoView.setPresenter(this);
+		professorView.display();
 	}
 	
 	public void saveAccountInformation(String firstName, String lastName, String icn, String address) {
@@ -45,8 +51,8 @@ public class ProfessorPresenter implements IProfessorPresenter, IUserAccountInfo
 	}
 
 	public void logOut() {
-		// TODO Auto-generated method stub
-		
+		professorView.dontDisplay();
+		loginPresenter.show();
 	}
 
 	public void presentReportsInformation() {

@@ -10,7 +10,8 @@ import java.sql.SQLException;
 import com.assig.assig1.models.User;
 
 public class UserDAOJdbc extends GenericDAOJdbc<User> {
-	public User get(String userName) {
+	
+	public User getByUsername(String userName) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement findStatement = null;
 		ResultSet rs = null;

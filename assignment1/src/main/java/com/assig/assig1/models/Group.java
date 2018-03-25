@@ -10,6 +10,13 @@ public class Group {
 		this.group_code = group_code;
 		this.representing_student = representing_student;
 	}
-	
-	
+	public int getId() {
+		return id;
+	}
+	public String getGroup_code() {
+		return group_code;
+	}
+	public int getRepresenting_student() {
+		return representing_student;
+	}
 }

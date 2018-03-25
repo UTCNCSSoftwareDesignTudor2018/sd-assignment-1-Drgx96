@@ -3,20 +3,26 @@ package com.assig.assig1.models;
 import java.util.List;
 
 public class StudentInformation {
+	String studentID;
+	String groupNumber;
+	List<Class> classes;
+	
+	public StudentInformation(String studentID, String groupNumber, List<Class> classes) {
+		super();
+		this.studentID = studentID;
+		this.groupNumber = groupNumber;
+		this.classes = classes;
+	}
 
 	public String getIdentificationNumber() {
-		// TODO Auto-generated method stub
-		return null;
+		return studentID;
 	}
 
 	public String getGroupNumber() {
-		// TODO Auto-generated method stub
-		return null;
+		return groupNumber;
 	}
 
-	public List<String> getEnrollments() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Class> getClasses() {
+		return classes;
 	}
-
 }
