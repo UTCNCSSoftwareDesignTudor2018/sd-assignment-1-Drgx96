@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface IStudentInformationPresenter {
 
-	List<String> getAvailableClasses();
+    List<String> getAvailableClasses();
 
-	void joinClassAtIndex(int index);
+    void joinClassAtIndex(int index);
 
-	void leaveCoursesWithIndexes(Integer[] selectedRows);
+    void leaveCoursesWithIndexes(Integer[] selectedRows);
 }

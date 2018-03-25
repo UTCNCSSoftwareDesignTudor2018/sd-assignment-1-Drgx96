@@ -1,189 +1,176 @@
 package com.assig.assig1.userinterface.student;
 
-import java.awt.EventQueue;
-import java.awt.GridLayout;
+import com.assig.assig1.presenters.IStudentInformationView;
+import com.assig.assig1.presenters.StudentPresenter;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+public class StudentInformationView extends JFrame implements IStudentInformationView {
+    private static final long serialVersionUID = 5270705953458728655L;
+    private IStudentInformationPresenter presenter;
+    private AvailableClassesView classesView;
+    private JLabel lblNewLabel;
+    private JLabel lblLastName;
+    private JPanel panel;
+    private JPanel panel_2;
+    private JPanel panel_3;
+    private JTable table;
+    private JTextField textField_lastName;
+    private JTextField textField_firstName;
+    private JButton btnAddEnrollment;
+    private JButton btnLeaveSelectedCourses;
+    private JButton btnGrades;
+    private JScrollPane scrollPane;
 
-import com.assig.assig1.IStudentInformationView;
-import com.assig.assig1.presenters.StudentPresenter;
+    public StudentInformationView() {
+        initialize();
+        classesView = new AvailableClassesView(this);
+    }
 
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.JScrollPane;
-import java.awt.FlowLayout;
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    StudentInformationView window = new StudentInformationView();
+                    window.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-public class StudentInformationView extends JFrame implements IStudentInformationView{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5270705953458728655L;
-	private IStudentInformationPresenter presenter;
-	private AvailableClassesView classesView;
-	private JLabel lblNewLabel;
-	private JLabel lblLastName;
-	private JPanel panel;
-	private JPanel panel_2;
-	private JPanel panel_3;
-	private JTable table;
-	private JTextField textField_lastName;
-	private JTextField textField_firstName;
-	private JButton btnAddEnrollment;
-	private JButton btnLeaveSelectedCourses;
-	private JButton btnGrades;
-	private JScrollPane scrollPane;
+    public void setPresenter(IStudentInformationPresenter sip) {
+        this.presenter = sip;
+    }
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StudentInformationView window = new StudentInformationView();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	public StudentInformationView() {
-		initialize();
-		classesView = new AvailableClassesView(this);
-	}
-	
-	public void setPresenter(IStudentInformationPresenter sip)
-	{
-		this.presenter =sip;
-	}
-	
-	private void initialize() {
-		setBounds(100, 100, 500, 538);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Sinu V10.0 - Student Information");
-		getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		panel = new JPanel();
-		getContentPane().add(panel);
-		panel.setLayout(new GridLayout(0, 2, 0, 0));
-		
-		lblNewLabel = new JLabel("Identification number:");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel);
-		
-		textField_firstName = new JTextField();
-		textField_firstName.setEditable(false);
-		panel.add(textField_firstName);
-		textField_firstName.setColumns(10);
-		
-		panel_2 = new JPanel();
-		panel_2.setLayout(new GridLayout(0, 2, 0, 0));
-		getContentPane().add(panel_2);
-		
-		lblLastName = new JLabel("Group:");
-		lblLastName.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_2.add(lblLastName);
-		
-		textField_lastName = new JTextField();
-		textField_lastName.setEditable(false);
-		textField_lastName.setColumns(10);
-		panel_2.add(textField_lastName);
-		
-		scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane);
-		
-		table = new JTable();
-		table.setFillsViewportHeight(true);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"New column"
-			}
-		));
-		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		scrollPane.setViewportView(table);
-		
-		panel_3 = new JPanel();
-		getContentPane().add(panel_3);
-		
-		btnAddEnrollment = new JButton("Enroll");
-		panel_3.add(btnAddEnrollment);
-		
-		btnGrades = new JButton("Grades");
-		panel_3.add(btnGrades);
-		
-		btnLeaveSelectedCourses = new JButton("Leave selected courses");
-		panel_3.add(btnLeaveSelectedCourses);
-	}
+    private void initialize() {
+        setBounds(100, 100, 500, 538);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Sinu V10.0 - Student Information");
+        getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-	protected void leaveSelectedCourses() {
-		presenter.leaveCoursesWithIndexes(Arrays.stream( table.getSelectedRows() ).boxed().toArray( Integer[]::new ));
-	}
+        panel = new JPanel();
+        getContentPane().add(panel);
+        panel.setLayout(new GridLayout(0, 2, 0, 0));
 
-	public void setIdentificationNumber(String identificationNumber) {
-		textField_firstName.setText(identificationNumber);
-	}
+        lblNewLabel = new JLabel("Identification number:");
+        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(lblNewLabel);
 
-	public void setGroup(String groupNumber) {
-		textField_lastName.setText(groupNumber);
-	}
+        textField_firstName = new JTextField();
+        textField_firstName.setEditable(false);
+        panel.add(textField_firstName);
+        textField_firstName.setColumns(10);
 
-	public void showEnrollments(List<String> subjects) {
-		DefaultTableModel defaultModel = new DefaultTableModel();
-		defaultModel.addColumn("Subject");
-		for(int i=0;i<subjects.size();i++)
-		{
-			defaultModel.addRow(new String[] {subjects.get(i)});
-		}
-		table.setModel(defaultModel);
-	}
+        panel_2 = new JPanel();
+        panel_2.setLayout(new GridLayout(0, 2, 0, 0));
+        getContentPane().add(panel_2);
 
-	public void setPresenter(StudentPresenter studentPresenter) {
-		presenter = studentPresenter;
-		btnLeaveSelectedCourses.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				leaveSelectedCourses();
-			}
-		});
-		btnGrades.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				showGrades();
-			}
-		});
-		btnAddEnrollment.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				showAvailableClasses();
-			}
-		});
-	}
+        lblLastName = new JLabel("Group:");
+        lblLastName.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_2.add(lblLastName);
 
-	protected void showAvailableClasses() {
-		List<String> classes = presenter.getAvailableClasses();
-		classesView.showAvailableClasses(classes);
-		classesView.setVisible(true);
-	}
+        textField_lastName = new JTextField();
+        textField_lastName.setEditable(false);
+        textField_lastName.setColumns(10);
+        panel_2.add(textField_lastName);
 
-	protected void showGrades() {
-		
-	}
+        scrollPane = new JScrollPane();
+        getContentPane().add(scrollPane);
 
-	public void display() {
-		setVisible(true);
-	}
-	
+        table = new JTable();
+        table.setFillsViewportHeight(true);
+        table.setModel(new DefaultTableModel(
+                new Object[][]{
+                },
+                new String[]{
+                        "New column"
+                }
+        ));
+        table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        scrollPane.setViewportView(table);
 
-	public void joinCourseAtIndex(int index) {
-		presenter.joinClassAtIndex(index);
-	}
+        panel_3 = new JPanel();
+        getContentPane().add(panel_3);
+
+        btnAddEnrollment = new JButton("Enroll");
+        panel_3.add(btnAddEnrollment);
+
+        btnGrades = new JButton("Grades");
+        panel_3.add(btnGrades);
+
+        btnLeaveSelectedCourses = new JButton("Leave selected courses");
+        panel_3.add(btnLeaveSelectedCourses);
+    }
+
+    protected void leaveSelectedCourses() {
+        presenter.leaveCoursesWithIndexes(Arrays.stream(table.getSelectedRows()).boxed().toArray(Integer[]::new));
+    }
+
+    public void setIdentificationNumber(String identificationNumber) {
+        textField_firstName.setText(identificationNumber);
+    }
+
+    public void setGroup(String groupNumber) {
+        textField_lastName.setText(groupNumber);
+    }
+
+    public void showEnrollments(List<String> subjects) {
+        DefaultTableModel defaultModel = new DefaultTableModel();
+        defaultModel.addColumn("Subject");
+        for (int i = 0; i < subjects.size(); i++) {
+            defaultModel.addRow(new String[]{subjects.get(i)});
+        }
+        table.setModel(defaultModel);
+    }
+
+    public void setPresenter(StudentPresenter studentPresenter) {
+        presenter = studentPresenter;
+        btnLeaveSelectedCourses.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                leaveSelectedCourses();
+            }
+        });
+        btnGrades.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showGrades();
+            }
+        });
+        btnAddEnrollment.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showAvailableClasses();
+            }
+        });
+    }
+
+    protected void showAvailableClasses() {
+        List<String> classes = presenter.getAvailableClasses();
+        classesView.showAvailableClasses(classes);
+        classesView.setVisible(true);
+    }
+
+    protected void showGrades() {
+
+    }
+
+    public void display() {
+        setVisible(true);
+    }
+
+
+    public void joinCourseAtIndex(int index) {
+        presenter.joinClassAtIndex(index);
+    }
+
+    @Override
+    public void dontDisplay() {
+        setVisible(false);
+    }
 }

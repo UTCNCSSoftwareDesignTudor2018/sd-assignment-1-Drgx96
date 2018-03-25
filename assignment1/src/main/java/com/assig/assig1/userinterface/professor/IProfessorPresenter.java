@@ -1,15 +1,21 @@
 package com.assig.assig1.userinterface.professor;
 
+import java.util.List;
+
 public interface IProfessorPresenter {
 
-	String getUsername();
+    String getUsername();
 
-	void presentAccountInformation();
+    void presentAccountInformation();
 
-	void presentStudentsInformation();
+    void logOut();
 
-	void logOut();
+    void presentReportsInformation();
 
-	void presentReportsInformation();
+    List<String[]> getStudents();
+
+    void presentInfoForStudentAtIndex(int row);
+
+	void showGradesForClassAtIndex(int row);
 
 }

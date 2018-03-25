@@ -2,12 +2,12 @@ package com.assig.assig1.userinterface.student;
 
 public interface IStudentPresenter {
 
-	String getUsername();
+    String getUsername();
 
-	void presentAccountInformation();
+    void presentAccountInformation();
 
-	void logOut();
+    void logOut();
 
-	void presentStudentInformation();
+    void presentStudentInformation();
 
 }
