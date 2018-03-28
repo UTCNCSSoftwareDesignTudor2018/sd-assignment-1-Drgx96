@@ -23,19 +23,6 @@ public class ChooseAddressView extends JFrame {
         initialize();
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ChooseAddressView window = new ChooseAddressView(new UserAccountInformationView());
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     private void initialize() {
         setBounds(100, 100, 463, 315);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

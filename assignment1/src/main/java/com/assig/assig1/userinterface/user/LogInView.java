@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 public class LogInView extends JFrame implements ILoginView {
 
     private static final long serialVersionUID = 3265856705678846591L;
-    private JTextField txtParolastandard_1;
+    private JPasswordField txtParolastandard_1;
     private JTextField txtParolastandard;
     private JLabel lblUsername;
     private JLabel lblPleaseInputYour;
@@ -21,19 +21,6 @@ public class LogInView extends JFrame implements ILoginView {
 
     public LogInView() {
         initialize();
-    }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    LogInView window = new LogInView();
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     private void initialize() {
@@ -68,7 +55,7 @@ public class LogInView extends JFrame implements ILoginView {
         JLabel lblNewLabel = new JLabel("Password:");
         panel_1.add(lblNewLabel);
 
-        txtParolastandard_1 = new JTextField();
+        txtParolastandard_1 = new JPasswordField();
         txtParolastandard_1.setText("parolastandard");
         panel_1.add(txtParolastandard_1);
         txtParolastandard_1.setColumns(10);

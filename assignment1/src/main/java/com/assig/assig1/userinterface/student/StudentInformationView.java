@@ -2,6 +2,8 @@ package com.assig.assig1.userinterface.student;
 
 import com.assig.assig1.presenters.IStudentInformationView;
 import com.assig.assig1.presenters.StudentPresenter;
+import com.assig.assig1.userinterface.user.GradesView;
+import com.assig.assig1.userinterface.user.IParentForGradeView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -11,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
-public class StudentInformationView extends JFrame implements IStudentInformationView {
+public class StudentInformationView extends JFrame implements IStudentInformationView, IParentForGradeView {
     private static final long serialVersionUID = 5270705953458728655L;
     private IStudentInformationPresenter presenter;
     private AvailableClassesView classesView;
@@ -27,23 +29,12 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
     private JButton btnLeaveSelectedCourses;
     private JButton btnGrades;
     private JScrollPane scrollPane;
+    private GradesView gradeView;
 
     public StudentInformationView() {
         initialize();
         classesView = new AvailableClassesView(this);
-    }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    StudentInformationView window = new StudentInformationView();
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        gradeView = new GradesView(this);
     }
 
     public void setPresenter(IStudentInformationPresenter sip) {
@@ -52,7 +43,7 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
 
     private void initialize() {
         setBounds(100, 100, 500, 538);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setTitle("Sinu V10.0 - Student Information");
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
@@ -123,7 +114,14 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
     }
 
     public void showEnrollments(List<String> subjects) {
-        DefaultTableModel defaultModel = new DefaultTableModel();
+        DefaultTableModel defaultModel = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
         defaultModel.addColumn("Subject");
         for (int i = 0; i < subjects.size(); i++) {
             defaultModel.addRow(new String[]{subjects.get(i)});
@@ -157,7 +155,11 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
     }
 
     protected void showGrades() {
-
+        int row = table.getSelectionModel().getMinSelectionIndex();
+        gradeView.setGrades(presenter.getGradesForClassAtIndex(row));
+        gradeView.setStudent(presenter.getStudent());
+        gradeView.setSubject((String) table.getModel().getValueAt(row, 0));
+        gradeView.setVisible(true);
     }
 
     public void display() {
@@ -172,5 +174,11 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
     @Override
     public void dontDisplay() {
         setVisible(false);
+        classesView.setVisible(false);
+        gradeView.setVisible(false);
+    }
+
+    @Override
+    public void addGrade(String grade, String examination) {
     }
 }

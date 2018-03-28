@@ -16,6 +16,7 @@ public interface IProfessorPresenter {
 
     void presentInfoForStudentAtIndex(int row);
 
-	void showGradesForClassAtIndex(int row);
+	List<String[]> getGradesForClassAtIndex(int row);
 
+    void addGrade(String grade, String examination);
 }

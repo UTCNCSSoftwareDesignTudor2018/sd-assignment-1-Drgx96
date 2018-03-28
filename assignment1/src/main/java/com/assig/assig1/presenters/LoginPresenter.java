@@ -1,7 +1,7 @@
 package com.assig.assig1.presenters;
 
-import com.assig.assig1.Facade;
-import com.assig.assig1.IFacade;
+import com.assig.assig1.business.Facade;
+import com.assig.assig1.business.IFacade;
 import com.assig.assig1.userinterface.professor.ProfessorView;
 import com.assig.assig1.userinterface.professor.StudentInformationForProfessorView;
 import com.assig.assig1.userinterface.student.StudentInformationView;

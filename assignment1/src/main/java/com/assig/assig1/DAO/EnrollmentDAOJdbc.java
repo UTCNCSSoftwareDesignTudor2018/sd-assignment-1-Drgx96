@@ -40,22 +40,7 @@ public class EnrollmentDAOJdbc extends GenericDAOJdbc<Enrollment> {
                 }
                 try {
                     enrollments.add(Enrollment.class.getConstructor(classes).newInstance(args));
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                    return null;
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                    return null;
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                    return null;
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                    return null;
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                    return null;
-                } catch (SecurityException e) {
+                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                     e.printStackTrace();
                     return null;
                 }
@@ -76,10 +61,11 @@ public class EnrollmentDAOJdbc extends GenericDAOJdbc<Enrollment> {
             return;
         Connection dbConnection = ConnectionFactory.getConnection();
         PreparedStatement findStatement = null;
-        String query = "DELETE FROM " + Enrollment.class.getSimpleName().toLowerCase() + "s" + " where ";
+        StringBuilder queryBuilder = new StringBuilder("DELETE FROM " + Enrollment.class.getSimpleName().toLowerCase() + "s" + " where ");
         for (int i = 0; i < enrollments.size(); i++) {
-            query += Enrollment.class.getDeclaredFields()[0].getName() + "=? AND " + Enrollment.class.getDeclaredFields()[1].getName() + "=? OR ";
+            queryBuilder.append(Enrollment.class.getDeclaredFields()[0].getName()).append("=? AND ").append(Enrollment.class.getDeclaredFields()[1].getName()).append("=? OR ");
         }
+        String query = queryBuilder.toString();
         query = query.substring(0, query.length() - 3) + ";";
         try {
             findStatement = dbConnection.prepareStatement(query);

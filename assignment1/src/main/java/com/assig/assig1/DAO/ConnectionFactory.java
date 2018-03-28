@@ -46,24 +46,6 @@ public class ConnectionFactory {
         }
     }
 
-    public static void main(String[] args) {
-        ConnectionFactory.getConnection();
-        UserDAOJdbc userDAO = new UserDAOJdbc();
-        AddressDAOJdbc addressDAO = new AddressDAOJdbc();
-        ChosenAddressDAOJdbc chosenAddressDAO = new ChosenAddressDAOJdbc();
-        ClassDAOJdbc classDAO = new ClassDAOJdbc();
-        EnrollmentDAOJdbc enrollmentDAO = new EnrollmentDAOJdbc();
-        GroupDAOJdbc groupDAO = new GroupDAOJdbc();
-        GradeDAOJdbc gradesDAO = new GradeDAOJdbc();
-        userDAO.list();
-        addressDAO.list();
-        chosenAddressDAO.list();
-        classDAO.list();
-        enrollmentDAO.list();
-        groupDAO.list();
-        gradesDAO.list();
-    }
-
     private Connection createConnection() {
         Connection connection = null;
         try {

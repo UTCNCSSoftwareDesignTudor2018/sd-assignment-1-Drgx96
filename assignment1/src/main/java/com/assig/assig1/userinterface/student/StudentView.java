@@ -23,19 +23,6 @@ public class StudentView extends JFrame implements IStudentView {
         initialize();
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    StudentView window = new StudentView();
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     private void initialize() {
         setBounds(100, 100, 500, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

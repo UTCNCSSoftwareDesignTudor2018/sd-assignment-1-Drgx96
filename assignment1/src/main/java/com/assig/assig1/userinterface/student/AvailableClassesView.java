@@ -1,24 +1,24 @@
 package com.assig.assig1.userinterface.student;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.EventObject;
 import java.util.List;
 
-public class AvailableClassesView extends JFrame {
+class AvailableClassesView extends JFrame {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2629871606324701724L;
     private JTable table;
     private StudentInformationView parentView;
 
-    public AvailableClassesView(StudentInformationView parentView) {
+    AvailableClassesView(StudentInformationView parentView) {
         this.parentView = parentView;
         setTitle("Sinu V10.0 - Classes you can join");
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -58,26 +58,20 @@ public class AvailableClassesView extends JFrame {
         });
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    AvailableClassesView window = new AvailableClassesView(new StudentInformationView());
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     private void initialize() {
-        setBounds(100, 100, 500, 489);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 500, 510);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
 
-    public void showAvailableClasses(List<String> classes) {
-        DefaultTableModel dtp = new DefaultTableModel();
+    void showAvailableClasses(List<String> classes) {
+        DefaultTableModel dtp = new DefaultTableModel(){
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
         dtp.addColumn("Subject");
         for (String c : classes) {
             dtp.addRow(new String[]{c});
@@ -85,7 +79,7 @@ public class AvailableClassesView extends JFrame {
         table.setModel(dtp);
     }
 
-    public void enrollInSelectedClasses() {
+    private void enrollInSelectedClasses() {
         setVisible(false);
         for (int index : table.getSelectedRows()) {
             parentView.joinCourseAtIndex(index);

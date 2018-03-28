@@ -72,17 +72,30 @@ public class UsersManager {
     }
 
     public void setUsersAddress(int userId, Address address) {
-        int id = addressDAO.add(address);
-        choosenAddressDAO.add(new ChosenAddress(userId, id));
+        int id = addressDAO.add(address, true);
+        choosenAddressDAO.add(new ChosenAddress(userId, id), false);
     }
 
     public List<StudentInformation> getStudentsInformation() {
         List<User> students = usersDAO.list().values().stream().filter(x -> !x.getAdmin()).collect(Collectors.toList());
         List<Group> groups = new LinkedList<>(groupDAO.list().values());
         LinkedList<StudentInformation> studentsInformations = new LinkedList<>();
+        List<Class> classes = classesMgr.getClasses();
+        List<Enrollment> enrollments = classesMgr.getEnrollments();
         for(User s: students)
         {
-            studentsInformations.add(new StudentInformation(s, groups.stream().filter(x -> x.getId() == s.getGroup_id()).findFirst().get().getGroup_code(), classesMgr.getClassesOfUser(s.getId())));
+            studentsInformations.add(new StudentInformation(
+                    s,
+                    groups.stream().filter(x -> x.getId() == s.getGroup_id()).findFirst().get().getGroup_code(),
+                    enrollments
+                            .stream()
+                            .filter(x -> (x.getUserId()==s.getId()))
+                            .map(x -> classes
+                                    .stream()
+                                    .filter(y -> y.getId()==x.getClassId())
+                                    .findFirst()
+                                    .get())
+                            .collect(Collectors.toList())));
         }
         return studentsInformations;
     }

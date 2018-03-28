@@ -142,16 +142,19 @@ public class GenericDAOJdbc<T> implements GenericDAO<T> {
         }
     }
 
-    public int add(T t) {
+    public int add(T t, boolean assignId) {
         Connection dbConnection = ConnectionFactory.getConnection();
-        int id = getNextId();
-        try {
-            Field field = t.getClass().getDeclaredFields()[0];
-            field.setAccessible(true);
-            field.set(t, id);
-        } catch (IllegalArgumentException | IllegalAccessException | SecurityException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+        int id = 0;
+        if(assignId) {
+            id = getNextId();
+            try {
+                Field field = t.getClass().getDeclaredFields()[0];
+                field.setAccessible(true);
+                field.set(t, id);
+            } catch (IllegalArgumentException | IllegalAccessException | SecurityException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
         PreparedStatement findStatement = null;
         String query = "INSERT INTO `" + type.getSimpleName().toLowerCase() + "s" + "` (";

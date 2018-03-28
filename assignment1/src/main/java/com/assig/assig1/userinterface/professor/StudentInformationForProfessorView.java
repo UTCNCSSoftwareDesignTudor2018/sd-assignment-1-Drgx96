@@ -1,16 +1,22 @@
 package com.assig.assig1.userinterface.professor;
 
 import com.assig.assig1.presenters.IStudentInfoForProfessorView;
+import com.assig.assig1.userinterface.user.GradesView;
+import com.assig.assig1.userinterface.user.IParentForGradeView;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.EventObject;
 import java.util.List;
 
-public class StudentInformationForProfessorView extends JFrame implements IStudentInfoForProfessorView {
+public class StudentInformationForProfessorView extends JFrame implements IStudentInfoForProfessorView, IParentForGradeView {
     private static final long serialVersionUID = 2134869034430296379L;
+    private GradesView gradeView;
     private JTextField studentName;
     private JTextField group;
     private JTextField identificationNumber;
@@ -19,25 +25,13 @@ public class StudentInformationForProfessorView extends JFrame implements IStude
 
     public StudentInformationForProfessorView() {
         setTitle("Student information - ");
+        this.gradeView = new GradesView(this);
         initialize();
-    }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    StudentInformationForProfessorView window = new StudentInformationForProfessorView();
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     private void initialize() {
         setBounds(100, 100, 465, 529);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
         JPanel panel = new JPanel();
@@ -100,8 +94,11 @@ public class StudentInformationForProfessorView extends JFrame implements IStude
         getContentPane().add(panel_4);
     }
 
-    protected void showGradesForClassAtIndex(int row) {
-    	presenter.showGradesForClassAtIndex( row);
+    public void showGradesForClassAtIndex(int row) {
+        gradeView.setGrades(presenter.getGradesForClassAtIndex(row));
+        gradeView.setStudent(studentName.getText());
+        gradeView.setSubject((String) table.getModel().getValueAt(row,0));
+        gradeView.setVisible(true);
 	}
 
 	@Override
@@ -132,16 +129,29 @@ public class StudentInformationForProfessorView extends JFrame implements IStude
 
     @Override
     public void dontDisplay() {
+        gradeView.setVisible(false);
         setVisible(false);
     }
 
     @Override
     public void setJoinedCourses(List<String> courses) {
-        DefaultTableModel dtm = new DefaultTableModel();
+        DefaultTableModel dtm = new DefaultTableModel(){
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
         dtm.addColumn("Subject");
         for (String s : courses) {
             dtm.addRow(new String[]{s});
         }
         table.setModel(dtm);
+    }
+
+    @Override
+    public void addGrade(String grade, String examination) {
+        presenter.addGrade(grade, examination);
     }
 }

@@ -1,16 +1,15 @@
 package com.assig.assig1.presenters;
 
-import com.assig.assig1.IFacade;
-import com.assig.assig1.models.Address;
+import com.assig.assig1.business.IFacade;
+import com.assig.assig1.models.*;
 import com.assig.assig1.models.Class;
-import com.assig.assig1.models.StudentInformation;
-import com.assig.assig1.models.User;
 import com.assig.assig1.userinterface.student.IStudentInformationPresenter;
 import com.assig.assig1.userinterface.student.IStudentPresenter;
 import com.assig.assig1.userinterface.user.ILoginPresenter;
 import com.assig.assig1.userinterface.user.IUserAccountInformationPresenter;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +23,8 @@ public class StudentPresenter implements IStudentInformationPresenter, IStudentP
     private ILoginPresenter loginPresenter;
     private List<Class> avaiableClasses;
     private StudentInformation studentInformation;
+    private List<Class> classes;
+    private Class currentClass;
 
     public StudentPresenter(IFacade facade, ILoginPresenter loginPresenter, IStudentInformationView studentInfoView, IStudentView studentView, IUserAccountInformationView userAccountInfoView, String userId) {
         this.facade = facade;
@@ -67,24 +68,42 @@ public class StudentPresenter implements IStudentInformationPresenter, IStudentP
         studentInformation = facade.getStudentInformation(userId);
         studentInfoView.setIdentificationNumber(studentInformation.getIdentificationNumber());
         studentInfoView.setGroup(studentInformation.getGroupNumber());
-        studentInfoView.showEnrollments(studentInformation.getClasses().stream().map(x -> x.getSubject()).collect(Collectors.toList()));
+        classes = studentInformation.getClasses();
+        studentInfoView.showEnrollments(classes.stream().map(Class::getSubject).collect(Collectors.toList()));
         studentInfoView.display();
     }
 
     public List<String> getAvailableClasses() {
         avaiableClasses = facade.getAvaiableClassesForUser(Integer.valueOf(userId));
-        return (avaiableClasses).stream().map(n -> ((Class) n).getSubject()).collect(Collectors.toList());
+        return (avaiableClasses).stream().map(Class::getSubject).collect(Collectors.toList());
     }
 
     public void joinClassAtIndex(int index) {
         facade.enrollUserToClass(Integer.valueOf(userId), avaiableClasses.get(index).getId());
-        studentInfoView.showEnrollments(studentInformation.getClasses().stream().map(x -> x.getSubject()).collect(Collectors.toList()));
+        studentInformation = facade.getStudentInformation(userId);
+        studentInfoView.showEnrollments(studentInformation.getClasses().stream().map(Class::getSubject).collect(Collectors.toList()));
     }
 
     public void leaveCoursesWithIndexes(Integer[] selectedRows) {
-        facade.withDrawUserFromCourses(Integer.valueOf(userId), Arrays.asList(selectedRows).stream().map(x -> studentInformation.getClasses().get(x).getId()).collect(Collectors.toList()));
+        facade.withDrawUserFromCourses(Integer.valueOf(userId), Arrays.stream(selectedRows).map(x -> studentInformation.getClasses().get(x).getId()).collect(Collectors.toList()));
         studentInformation = facade.getStudentInformation(userId);
-        studentInfoView.showEnrollments(studentInformation.getClasses().stream().map(x -> x.getSubject()).collect(Collectors.toList()));
+        studentInfoView.showEnrollments(studentInformation.getClasses().stream().map(Class::getSubject).collect(Collectors.toList()));
+    }
+
+    @Override
+    public List<String[]> getGradesForClassAtIndex(int minSelectionIndex) {
+        currentClass = studentInformation.getClasses().get(minSelectionIndex);
+        List<Grade> gs = facade.getGradesForEnrollment(new Enrollment(studentInformation.getUser().getId(), studentInformation.getClasses().get(minSelectionIndex).getId()));
+        List<String[]> grades = new LinkedList<String[]>();
+        for (Grade g : gs) {
+            grades.add(new String[]{String.valueOf(g.getGrade()), g.getExaminationType()});
+        }
+        return grades;
+    }
+
+    @Override
+    public String getStudent() {
+        return null;
     }
 
     @Override

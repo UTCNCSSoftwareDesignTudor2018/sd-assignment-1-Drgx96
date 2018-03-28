@@ -1,10 +1,13 @@
 package com.assig.assig1.userinterface.professor;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.EventObject;
 import java.util.List;
 
 public class ChooseStudentView extends JFrame {
@@ -19,23 +22,10 @@ public class ChooseStudentView extends JFrame {
         initialize();
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ChooseStudentView window = new ChooseStudentView(new ProfessorView());
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     private void initialize() {
         setBounds(100, 100, 485, 475);
         this.setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
         JPanel panel = new JPanel();
@@ -68,7 +58,14 @@ public class ChooseStudentView extends JFrame {
     }
 
     public void setStudents(List<String[]> students) {
-        DefaultTableModel dtm = new DefaultTableModel();
+        DefaultTableModel dtm = new DefaultTableModel(){
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
         dtm.addColumn("First Name");
         dtm.addColumn("Last Name");
         dtm.addColumn("Identification number");

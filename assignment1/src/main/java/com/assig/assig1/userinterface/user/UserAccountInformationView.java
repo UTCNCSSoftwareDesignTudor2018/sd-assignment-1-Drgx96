@@ -38,22 +38,9 @@ public class UserAccountInformationView extends JFrame implements IUserAccountIn
         initialize();
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    UserAccountInformationView window = new UserAccountInformationView();
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     private void initialize() {
         setBounds(100, 100, 500, 250);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setTitle("Sinu V10.0");
         getContentPane().setLayout(new GridLayout(6, 1, 0, 0));
 
@@ -194,6 +181,7 @@ public class UserAccountInformationView extends JFrame implements IUserAccountIn
 
     @Override
     public void dontDisplay() {
+        chooseAddressView.setVisible(false);
         setVisible(false);
     }
 }

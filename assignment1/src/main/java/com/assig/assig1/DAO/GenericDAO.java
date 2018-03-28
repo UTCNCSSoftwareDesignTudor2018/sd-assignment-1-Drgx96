@@ -7,7 +7,7 @@ public interface GenericDAO<T> {
 
     Map<Integer, T> list();
 
-    int add(T t);
+    int add(T t, boolean assignId);
 
     void update(T t);
 

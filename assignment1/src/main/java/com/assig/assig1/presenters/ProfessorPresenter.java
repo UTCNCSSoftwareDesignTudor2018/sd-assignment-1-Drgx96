@@ -1,9 +1,8 @@
 package com.assig.assig1.presenters;
 
-import com.assig.assig1.IFacade;
-import com.assig.assig1.models.Address;
-import com.assig.assig1.models.StudentInformation;
-import com.assig.assig1.models.User;
+import com.assig.assig1.business.IFacade;
+import com.assig.assig1.models.*;
+import com.assig.assig1.models.Class;
 import com.assig.assig1.userinterface.professor.IProfessorPresenter;
 import com.assig.assig1.userinterface.user.ILoginPresenter;
 import com.assig.assig1.userinterface.user.IUserAccountInformationPresenter;
@@ -22,6 +21,7 @@ public class ProfessorPresenter implements IProfessorPresenter, IUserAccountInfo
     private ILoginPresenter loginPresenter;
     private List<StudentInformation> studentInformations;
     private StudentInformation currentStudent;
+    private Class currentClass;
 
     public ProfessorPresenter(IFacade facade, ILoginPresenter loginPresenter, IProfessorView professorView, IUserAccountInformationView userAccountInfoView, IStudentInfoForProfessorView studentInfoForProfessorView, String userId) {
         this.facade = facade;
@@ -80,13 +80,14 @@ public class ProfessorPresenter implements IProfessorPresenter, IUserAccountInfo
             User u = s.getUser();
             studsInfo.add(new String[]{u.getFirstName(), u.getLastName(), String.valueOf(u.getId()), s.getGroupNumber(), u.getPhone(), u.getEmail()});
         }
+        studentInfoForProfessorView.dontDisplay();
         return studsInfo;
     }
 
     @Override
     public void presentInfoForStudentAtIndex(int row) {
         currentStudent = studentInformations.get(row);
-        studentInfoForProfessorView.setStudentName(currentStudent.getUser().getFirstName()+ " " + currentStudent.getUser().getLastName());
+        studentInfoForProfessorView.setStudentName(currentStudent.getUser().getFirstName() + " " + currentStudent.getUser().getLastName());
         studentInfoForProfessorView.setGroup(currentStudent.getGroupNumber());
         studentInfoForProfessorView.setIdentificationNumber(currentStudent.getIdentificationNumber());
         studentInfoForProfessorView.setJoinedCourses(currentStudent.getClasses().stream().map(x -> x.getSubject()).collect(Collectors.toList()));
@@ -99,9 +100,20 @@ public class ProfessorPresenter implements IProfessorPresenter, IUserAccountInfo
 
     }
 
-	@Override
-	public void showGradesForClassAtIndex(int row) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public List<String[]> getGradesForClassAtIndex(int row) {
+        currentClass = currentStudent.getClasses().get(row);
+        List<Grade> gs = facade.getGradesForEnrollment(new Enrollment(currentStudent.getUser().getId(), currentStudent.getClasses().get(row).getId()));
+        List<String[]> grades = new LinkedList<String[]>();
+        for (Grade g : gs) {
+            grades.add(new String[]{String.valueOf(g.getGrade()), g.getExaminationType()});
+        }
+        return grades;
+    }
+
+    @Override
+    public void addGrade(String grade, String examination) {
+        facade.addGradeToEnrollment(new Enrollment(currentStudent.getUser().getId(), currentClass.getId()),  Float.valueOf(grade), examination);
+        studentInfoForProfessorView.showGradesForClassAtIndex(currentStudent.getClasses().indexOf(currentClass));
+    }
 }

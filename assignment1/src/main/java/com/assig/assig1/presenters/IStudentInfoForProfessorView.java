@@ -18,4 +18,6 @@ public interface IStudentInfoForProfessorView {
     void dontDisplay();
 
     void setJoinedCourses(List<String> courses);
+
+    void showGradesForClassAtIndex(int index);
 }

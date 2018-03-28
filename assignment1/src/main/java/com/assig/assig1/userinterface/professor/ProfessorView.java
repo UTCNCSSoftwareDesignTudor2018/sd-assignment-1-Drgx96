@@ -24,19 +24,6 @@ public class ProfessorView extends JFrame implements IProfessorView {
         initialize();
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ProfessorView window = new ProfessorView();
-                    window.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     private void initialize() {
         setBounds(100, 100, 500, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,6 +83,7 @@ public class ProfessorView extends JFrame implements IProfessorView {
     }
 
     public void dontDisplay() {
+        chooseStudentView.setVisible(false);
         setVisible(false);
     }
 

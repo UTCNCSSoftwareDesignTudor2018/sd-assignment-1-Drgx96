@@ -19,4 +19,12 @@ public class Grade {
         this.enrollment_users_id = enrollment_users_id;
         this.enrollment_class_id = enrollment_class_id;
     }
+
+    public String getExaminationType() {
+        return evaluation_type;
+    }
+
+    public double getGrade() {
+        return value;
+    }
 }
