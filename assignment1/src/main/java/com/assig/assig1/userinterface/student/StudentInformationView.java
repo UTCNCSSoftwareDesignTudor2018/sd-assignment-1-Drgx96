@@ -1,9 +1,9 @@
 package com.assig.assig1.userinterface.student;
 
+import com.assig.assig1.userinterface.user.IParentForGradeView;
 import com.assig.assig1.presenters.IStudentInformationView;
 import com.assig.assig1.presenters.StudentPresenter;
 import com.assig.assig1.userinterface.user.GradesView;
-import com.assig.assig1.userinterface.user.IParentForGradeView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

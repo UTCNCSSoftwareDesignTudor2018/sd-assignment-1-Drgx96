@@ -1,8 +1,8 @@
 package com.assig.assig1.userinterface.professor;
 
+import com.assig.assig1.userinterface.user.IParentForGradeView;
 import com.assig.assig1.presenters.IStudentInfoForProfessorView;
 import com.assig.assig1.userinterface.user.GradesView;
-import com.assig.assig1.userinterface.user.IParentForGradeView;
 
 import javax.swing.*;
 import javax.swing.event.CellEditorListener;

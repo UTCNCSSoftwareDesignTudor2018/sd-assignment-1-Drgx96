@@ -1,15 +1,19 @@
 package com.assig.assig1.presenters;
 
-import com.assig.assig1.business.IFacade;
-import com.assig.assig1.models.*;
-import com.assig.assig1.models.Class;
-import com.assig.assig1.userinterface.professor.IProfessorPresenter;
-import com.assig.assig1.userinterface.user.ILoginPresenter;
-import com.assig.assig1.userinterface.user.IUserAccountInformationPresenter;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.assig.assig1.business.IFacade;
+import com.assig.assig1.models.Address;
+import com.assig.assig1.models.Class;
+import com.assig.assig1.models.Enrollment;
+import com.assig.assig1.models.Grade;
+import com.assig.assig1.models.StudentInformation;
+import com.assig.assig1.models.User;
+import com.assig.assig1.userinterface.professor.IProfessorPresenter;
+import com.assig.assig1.userinterface.user.ILoginPresenter;
+import com.assig.assig1.userinterface.user.IUserAccountInformationPresenter;
 
 public class ProfessorPresenter implements IProfessorPresenter, IUserAccountInformationPresenter {
 
