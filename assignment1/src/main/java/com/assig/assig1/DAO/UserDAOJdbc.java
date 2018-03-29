@@ -42,22 +42,22 @@ public class UserDAOJdbc extends GenericDAOJdbc<User> {
                 try {
                     return User.class.getConstructor(classes).newInstance(args);
                 } catch (InstantiationException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     return null;
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     return null;
                 } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     return null;
                 } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     return null;
                 } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     return null;
                 } catch (SecurityException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     return null;
                 }
             } else

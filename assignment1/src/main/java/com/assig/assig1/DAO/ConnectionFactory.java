@@ -14,7 +14,7 @@ public class ConnectionFactory {
         try {
             Class.forName(DRIVER);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+           e.printStackTrace();
         }
     }
 

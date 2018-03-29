@@ -52,8 +52,8 @@ public class ClassesManager {
         return classDAO.listClassesOfUser(id);
     }
 
-    public void withdrawUserFromCourses(int userId, List<Integer> coursesIds) {
-        enrollmentDAO.delete(coursesIds.stream().map(x -> new Enrollment(userId, x)).collect(Collectors.toList()));
+    public boolean withdrawUserFromCourses(int userId, List<Integer> coursesIds) {
+		return enrollmentDAO.delete(coursesIds.stream().map(x -> new Enrollment(userId, x)).collect(Collectors.toList()));
     }
 
     public List<Grade> getGradesForEnrollment(Enrollment enrollment) {

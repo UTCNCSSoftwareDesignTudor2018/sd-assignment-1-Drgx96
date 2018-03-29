@@ -102,7 +102,13 @@ public class StudentInformationView extends JFrame implements IStudentInformatio
     }
 
     protected void leaveSelectedCourses() {
-        presenter.leaveCoursesWithIndexes(Arrays.stream(table.getSelectedRows()).boxed().toArray(Integer[]::new));
+        if(!presenter.leaveCoursesWithIndexes(Arrays.stream(table.getSelectedRows()).boxed().toArray(Integer[]::new)))
+        {
+        	JOptionPane.showMessageDialog(this,
+        		    "You cannot delete this enrollment because you already have grades for it!",
+        		    "Inane warning",
+        		    JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     public void setIdentificationNumber(String identificationNumber) {

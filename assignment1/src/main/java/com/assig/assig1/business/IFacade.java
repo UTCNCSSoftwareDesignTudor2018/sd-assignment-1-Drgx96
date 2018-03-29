@@ -27,7 +27,7 @@ public interface IFacade {
 
     void enrollUserToClass(int userId, int classId);
 
-    void withDrawUserFromCourses(int userId, List<Integer> coursesIds);
+    boolean withDrawUserFromCourses(int userId, List<Integer> coursesIds);
 
     void setAddressForUser(int userId, Address address);
 

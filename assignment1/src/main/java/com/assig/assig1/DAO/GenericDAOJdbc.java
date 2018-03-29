@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GenericDAOJdbc<T> implements GenericDAO<T> {
+public abstract class GenericDAOJdbc<T>{
     private Class<T> type;
 
     @SuppressWarnings("unchecked")

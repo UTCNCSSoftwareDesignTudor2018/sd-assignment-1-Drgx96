@@ -56,9 +56,9 @@ public class EnrollmentDAOJdbc extends GenericDAOJdbc<Enrollment> {
         }
     }
 
-    public void delete(List<Enrollment> enrollments) {
+    public boolean delete(List<Enrollment> enrollments) {
         if (enrollments == null || enrollments.size() < 1)
-            return;
+            return true;
         Connection dbConnection = ConnectionFactory.getConnection();
         PreparedStatement findStatement = null;
         StringBuilder queryBuilder = new StringBuilder("DELETE FROM " + Enrollment.class.getSimpleName().toLowerCase() + "s" + " where ");
@@ -75,11 +75,13 @@ public class EnrollmentDAOJdbc extends GenericDAOJdbc<Enrollment> {
                 findStatement.setInt(i++, e.getClassId());
             }
             findStatement.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionFactory.close(findStatement);
             ConnectionFactory.close(dbConnection);
         }
+        return false;
     }
 }

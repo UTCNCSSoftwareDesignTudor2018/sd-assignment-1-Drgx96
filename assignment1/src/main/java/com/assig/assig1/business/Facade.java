@@ -58,8 +58,8 @@ public class Facade implements IFacade {
         classesMgr.enrollStudentToClass(userId, classId);
     }
 
-    public void withDrawUserFromCourses(int userId, List<Integer> coursesIds) {
-        classesMgr.withdrawUserFromCourses(userId, coursesIds);
+    public boolean withDrawUserFromCourses(int userId, List<Integer> coursesIds) {
+        return classesMgr.withdrawUserFromCourses(userId, coursesIds);
     }
 
     public void setAddressForUser(int userId, Address address) {

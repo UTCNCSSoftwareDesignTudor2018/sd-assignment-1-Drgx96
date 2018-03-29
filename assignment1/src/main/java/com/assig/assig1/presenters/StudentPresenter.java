@@ -84,10 +84,11 @@ public class StudentPresenter implements IStudentInformationPresenter, IStudentP
         studentInfoView.showEnrollments(studentInformation.getClasses().stream().map(Class::getSubject).collect(Collectors.toList()));
     }
 
-    public void leaveCoursesWithIndexes(Integer[] selectedRows) {
-        facade.withDrawUserFromCourses(Integer.valueOf(userId), Arrays.stream(selectedRows).map(x -> studentInformation.getClasses().get(x).getId()).collect(Collectors.toList()));
+    public boolean leaveCoursesWithIndexes(Integer[] selectedRows) {
+        boolean inserted = facade.withDrawUserFromCourses(Integer.valueOf(userId), Arrays.stream(selectedRows).map(x -> studentInformation.getClasses().get(x).getId()).collect(Collectors.toList()));
         studentInformation = facade.getStudentInformation(userId);
         studentInfoView.showEnrollments(studentInformation.getClasses().stream().map(Class::getSubject).collect(Collectors.toList()));
+		return inserted;
     }
 
     @Override

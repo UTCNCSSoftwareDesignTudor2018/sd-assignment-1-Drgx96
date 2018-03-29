@@ -8,7 +8,7 @@ public interface IStudentInformationPresenter {
 
     void joinClassAtIndex(int index);
 
-    void leaveCoursesWithIndexes(Integer[] selectedRows);
+    boolean leaveCoursesWithIndexes(Integer[] selectedRows);
 
     List<String[]> getGradesForClassAtIndex(int minSelectionIndex);
 

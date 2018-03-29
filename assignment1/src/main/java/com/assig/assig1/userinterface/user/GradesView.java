@@ -3,13 +3,10 @@ package com.assig.assig1.userinterface.user;
 import com.assig.assig1.userinterface.professor.StudentInformationForProfessorView;
 
 import javax.swing.*;
-import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.EventObject;
 import java.util.List;
 
 public class GradesView extends JFrame {
